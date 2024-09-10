@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: MyFileSafe
+  datasource:
+    url: jdbc:postgresql://localhost:5432/web_safe_db
+    username: Kirill
+    password: 191919
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: create
+    show-sql: true

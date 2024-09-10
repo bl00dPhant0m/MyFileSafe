@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Файлы пользователя</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="file"] {
+            margin-right: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            margin-right: 10px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h2>Загрузка файлов</h2>
+
+<!-- Форма для загрузки нового файла -->
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="file"/>
+    <input type="hidden" name="userId" th:value="${userId}"/>
+    <button type="submit">Загрузить</button>
+</form>
+
+<!-- Проверка, есть ли файлы для отображения -->
+<div th:if="${files != null and !files.isEmpty()}">
+    <h3>Список файлов</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Имя файла</th>
+            <th>Дата загрузки</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Перебор списка файлов -->
+        <tr th:each="file : ${files}">
+            <td th:text="${file.fileName}">Имя файла</td>
+            <td th:text="${file.uploadDate}">Дата загрузки</td>
+            <td>
+                <!-- Ссылка на скачивание файла -->
+                <a th:href="@{/download/{id}(id=${file.id})}">Скачать</a>
+<!--                &lt;!&ndash; Ссылка на удаление файла &ndash;&gt;-->
+<!--                <a th:href="@{/delete/{id}(id=${file.id})}">Удалить</a>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Сообщение, если файлов нет -->
+<div th:if="${files == null or files.isEmpty()}">
+    <p>Нет загруженных файлов.</p>
+</div>
+</body>
+</html>
